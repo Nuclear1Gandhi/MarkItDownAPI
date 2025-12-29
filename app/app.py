@@ -31,9 +31,17 @@ def allowed_file(file):
 def check_secret_token():
     if request.method == "OPTIONS":
         return '', 200  # For preflight
+    # * Allow health check endpoint without authentication
+    if request.path == '/health':
+        return None  # Continue to route handler
     token = request.headers.get("X-WeLearnin-Token")
     if token != SECRET:
         abort(403, description="Forbidden")
+
+@app.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint for service monitoring."""
+    return jsonify({'status': 'healthy'}), 200
 
 @app.route('/extract', methods=['POST'])
 def extract_text():

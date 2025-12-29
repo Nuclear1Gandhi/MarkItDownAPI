@@ -1,6 +1,10 @@
 # Use Python 3.10 slim base image
 FROM python:3.10-slim
 
+# Set environment variables
+ENV MARK_IT_DOWN_SECRET=dev-secret
+ENV CORS_DOMAIN=*
+
 # Set the working directory inside the container
 WORKDIR /app
 
